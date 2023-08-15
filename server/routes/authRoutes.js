@@ -7,8 +7,7 @@ const addBookAuthor = require("../controllers/addBookAuthor");
 // middleware
 router.use(
   cors({
-    credentials: true,
-    origin: "http://loacalhost:3000",
+    origin: "http://localhost:3000",
   })
 );
 
