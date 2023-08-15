@@ -6,8 +6,7 @@ const { test, signupUser } = require("../controllers/authController");
 // middleware
 router.use(
   cors({
-    credentials: true,
-    origin: "http://loacalhost:3000",
+    origin: "http://localhost:3000",
   })
 );
 
