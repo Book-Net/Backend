@@ -5,6 +5,9 @@ const bookSchema = new mongoose.Schema({
   authors: [String],
   description: String,
   isbn: String,
+  condition: String,
+  price: String,
+  img: String,
   // Add other fields as needed
 });
 
