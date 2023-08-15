@@ -2,11 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
 // Enable CORS for all routes
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000", // Replace with your frontend URL
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // Set CORS headers
 app.use((req, res, next) => {
@@ -25,6 +31,8 @@ app.use((req, res, next) => {
 
 // middleware
 app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 
 // database connection
 mongoose
