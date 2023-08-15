@@ -6,6 +6,7 @@ const testk = require("../controllers/test");
 const multer = require('multer');
 const path = require('path');
 const { signupUser, loginUser } = require("../controllers/authController");
+const addBookAuthor = require("../controllers/addBookAuthor");
 
 // middleware
 router.use(
@@ -18,5 +19,6 @@ router.use(
 router.post("/signup", signupUser);
 router.post("/upload", testk);
 router.post("/login", loginUser);
+router.post("/add_book",addBookAuthor);
 
 module.exports = router;

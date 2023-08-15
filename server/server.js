@@ -4,6 +4,8 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
+const addBook = require("./controllers/addBookAuthor");
+
 const app = express();
 
 // Enable CORS for all routes
@@ -33,6 +35,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 // database connection
 mongoose
@@ -43,6 +46,11 @@ mongoose
 const PORT = process.env.PORT || 9000;
 
 app.use("/", require("./routes/authRoutes"));
+
+// Book model and route setup
+const Book = require("./models/Book"); // Assuming you have a Book model
+
+app.post("/api/books", addBook);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
