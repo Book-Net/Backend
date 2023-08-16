@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
   title: String,
+  authors: String,
   description: String,
   isbn: String,
-  quantity: Number,
-  price: Number,
-  img: String
+  condition: String,
+  price: String,
+  img: String,
   // Add other fields as needed
 });
 
