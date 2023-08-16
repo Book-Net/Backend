@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const path = require('path');
 
-const addBook = require("./controllers/addBookAuthor");
+// const addBook = require("./controllers/addBookAuthor");
 
 const app = express();
 
@@ -37,6 +38,10 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+
+app.use('/src/img', express.static('src'));
+app.use(express.static(path.join(__dirname, 'src/img')));
+
 // database connection
 mongoose
   .connect(process.env.MONGO_URI)
@@ -48,9 +53,9 @@ const PORT = process.env.PORT || 9000;
 app.use("/", require("./routes/authRoutes"));
 
 // Book model and route setup
-const Book = require("./models/Book"); // Assuming you have a Book model
+// const Book = require("./models/book"); // Assuming you have a Book model
 
-app.post("/api/books", addBook);
+// app.post("/api/books", addBook);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
