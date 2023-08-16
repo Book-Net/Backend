@@ -5,7 +5,7 @@ const Book = require("../models/Book");
 const addBookAuthor = async (req, res) => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "E:/BookNet/Backend/server/src");
+      cb(null, "E:/BookNet/Backend/server/src/img");
     },
     filename: (req, file, cb) => {
       cb(
