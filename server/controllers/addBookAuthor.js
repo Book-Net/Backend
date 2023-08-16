@@ -1,21 +1,41 @@
-const Book = require("../models/Book")
+const multer = require('multer');
+const path = require('path');
+const Book = require('../models/Book');
 
-const addBook = async (req, res) => {
-  try {
-                const { title, authors, condition, description, isbn, quantity, price, img } = req.body;
 
-                // Input validation
-                if (!title || !description || !isbn || !quantity || !price || !img ) {
-                return res.status(400).json({ error: "All are required fields." });
-                }
+const addBookAuthor = async (req,res) => {
+    const storage =multer.diskStorage({
+        destination: (req, file, cb) =>{
+            cb(null, 'F:/Project/Backend/server/src')
+        },
+        filename: (req, file, cb) =>{
+            cb(null,file.fieldname + "_" + Date.now()+ path.extname(file.originalname))
+        }
+    })
 
-                const newBook = await Book.create({ title, description, isbn, quantity, price, img, authors, condition, });
-                res.status(201).json(newBook);
+    const upload=multer({
+        storage:storage
+    }).single('file');
+
     
-  } catch (error) {
-    console.error("Error"+ error); // Log the error for debugging
-    res.status(500).json({ error: error.message || "An error occurred" });
-  }
+    // res.json({ message: 'Image uploaded successfully!' });
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ message: 'Error uploading file', error: err });
+        }
+
+        
+        Book.create({
+            title: req.body.title,
+            authors: req.body.author,
+            description: req.body.description,
+            isbn: req.body.isbn,
+            condition: req.body.condition,
+            price: req.body.price,
+            img: req.file.filename })
+        .then(result => res.json(result))
+        .catch(err => res.status(500).json({ message: 'Error saving file to database', error: err }));
+    });
 }
 
-module.exports = addBook
+module.exports = addBookAuthor;

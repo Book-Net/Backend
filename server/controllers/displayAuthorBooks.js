@@ -1,6 +1,6 @@
 const Book = require("../models/Book")
 
-const viewBook = async (req, res) => {
+const displayAuthorBook = async (req, res) => {
     try {
       const books = await Book.find();
       res.json(books);
@@ -11,4 +11,4 @@ const viewBook = async (req, res) => {
     }
   };
 
-  module.exports = viewBook
+  module.exports = displayAuthorBook
