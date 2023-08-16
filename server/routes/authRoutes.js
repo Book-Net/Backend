@@ -8,7 +8,7 @@ const { signupUser, loginUser } = require("../controllers/authController");
 const addBookAuthor = require("../controllers/addBookAuthor");
 const add_book_sell = require("../controllers/addBookForSell")
 const displayBookAuthor = require("../controllers/displayAuthorBooks");
-
+const file_u = require("../controllers/file")
 // middleware
 router.use(
   cors({
@@ -21,5 +21,7 @@ router.post("/signup", signupUser);
 router.post("/upload", testk);
 router.post("/login", loginUser);
 router.post("/add_book",addBookAuthor);
+router.get("/BookList",displayBookAuthor);
+router.get("/give_file/:name",file_u);
 
 module.exports = router;
