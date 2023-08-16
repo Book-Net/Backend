@@ -21,6 +21,8 @@ router.post("/signup", signupUser);
 router.post("/upload", testk);
 router.post("/login", loginUser);
 router.post("/add_book", addBookAuthor);
+router.post("/add_book_detail_sell", add_book_sell);
+
 router.get("/BookList", displayBookAuthor);
 router.get("/give_file/:name", file_u);
 
