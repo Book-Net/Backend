@@ -37,7 +37,7 @@ const add_book_sell = async (req, res) => {
       price: req.body.price,
       img: req.file.filename,
     })
-      .then((result) => res.redirect("https://example.com"))
+      .then((result) => res.redirect("http://localhost:3000/booklist"))
       .catch((err) =>
         res
           .status(500)

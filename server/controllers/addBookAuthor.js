@@ -32,11 +32,11 @@ const addBookAuthor = async (req, res) => {
       authors: req.body.author,
       description: req.body.description,
       isbn: req.body.isbn,
-      condition: req.body.condition,
+      condition: "new",
       price: req.body.price,
       img: req.file.filename,
     })
-      .then((result) => res.json(result))
+      .then((result) => res.redirect("http://localhost:3000/BookList"))
       .catch((err) =>
         res
           .status(500)
