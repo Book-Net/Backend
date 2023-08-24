@@ -9,7 +9,8 @@ const addBookAuthor = require("../controllers/addBookAuthor");
 const add_book_sell = require("../controllers/addBookForSell");
 const add_book_author = require("../controllers/Book_add_author");
 const displayBookAuthor = require("../controllers/displayAuthorBooks");
-const file_u = require("../controllers/file")
+const file_u = require("../controllers/file");
+const bookDetailFetch = require("../controllers/bookDetailFetch")
 // middleware
 router.use(
   cors({
@@ -24,6 +25,8 @@ router.post("/login", loginUser);
 router.post("/add_book",addBookAuthor);
 router.get("/BookList",displayBookAuthor);
 router.get("/give_file/:name",file_u);
-router.post("/Book_add_author",add_book_author)
+router.post("/Book_add_author",add_book_author);
+router.get("/bookDetailFetch/:isbn",bookDetailFetch);
+
 
 module.exports = router;
