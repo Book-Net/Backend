@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const path = require('path');
+const path = require("path");
 
 // const addBook = require("./controllers/addBookAuthor");
 
@@ -38,9 +38,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-
-app.use('/src/img', express.static('src'));
-app.use(express.static(path.join(__dirname, 'src/img')));
+app.use("/src/img", express.static("src"));
+app.use(express.static(path.join(__dirname, "src/img")));
 
 // database connection
 mongoose
@@ -51,6 +50,7 @@ mongoose
 const PORT = process.env.PORT || 9000;
 
 app.use("/", require("./routes/authRoutes"));
+app.use("/goals", require("./routes/goalRoutes"));
 
 // Book model and route setup
 // const Book = require("./models/book"); // Assuming you have a Book model

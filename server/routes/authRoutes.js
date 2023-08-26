@@ -4,7 +4,11 @@ const cors = require("cors");
 const testk = require("../controllers/test");
 const multer = require("multer");
 const path = require("path");
-const { signupUser, loginUser } = require("../controllers/authController");
+const {
+  signupUser,
+  loginUser,
+  test,
+} = require("../controllers/authController");
 const addBookAuthor = require("../controllers/addBookAuthor");
 const add_book_sell = require("../controllers/addBookForSell");
 const displayBookAuthor = require("../controllers/displayAuthorBooks");
@@ -17,10 +21,13 @@ router.use(
   })
 );
 
+const { protect } = require("../helper/authmiddleware");
+
 router.post("/signup", signupUser);
 router.post("/upload", testk);
+router.get("/test", protect, test);
 router.post("/login", loginUser);
-router.post("/add_book", addBookAuthor);
+router.post("/add_book", protect, addBookAuthor);
 router.post("/add_book_detail_sell", add_book_sell);
 
 router.get("/BookList", displayBookAuthor);
