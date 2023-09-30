@@ -27,6 +27,7 @@ router.get("/BookList",displayBookAuthor);
 router.get("/give_file/:name",file_u);
 router.post("/Book_add_author",add_book_author);
 router.get("/bookDetailFetch/:isbn",bookDetailFetch);
+router.post("/add_book_detail_sell",add_book_sell);
 
 
 module.exports = router;

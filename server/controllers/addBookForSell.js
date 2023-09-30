@@ -23,17 +23,43 @@ const add_book_sell = async (req,res) => {
         if (err) {
             return res.status(400).json({ message: 'Error uploading file', error: err });
         }
-
         
-        Book.create({
+        let option = req.body.option;
+        
+        let bookData = {
             title: req.body.title,
             authors: req.body.author,
             description: req.body.description,
             isbn: req.body.isbn,
             condition: req.body.condition,
             price: req.body.price,
-            img: req.file.filename })
-        .then(result => res.redirect('http://localhost:3000/'))
+            img: req.file.filename,
+            location: req.body.location,
+            option:option,
+        };
+
+        switch (option) {
+            case "Sell":
+                bookData.price= req.body.price;
+              break;
+            case "Bid":
+                bookData.minbid= req.body.minbid;
+                bookData.starts= req.body.starts;
+                bookData.ends= req.body.ends;
+              break;
+            case "Donate":
+              break;
+            case "Exchange":
+                bookData.needs= req.body.needs;
+              break;
+            default:
+              break;
+          }
+
+        //   res.send(bookData);
+        // Create the Book document
+        Book.create(bookData)
+        .then(res.status(200).json({message: 'The Book Added Successfully '}))
         .catch(err => res.status(500).json({ message: 'Error saving file to database', error: err }));
     });
 }

@@ -9,6 +9,13 @@ const bookSchema = new mongoose.Schema({
   condition: String,
   price: String,
   img: String,
+  location: String,
+  minbid: String,
+  starts: String,
+  ends: String,
+  needs:String,
+  option:String,
+  category:String,
   // Add other fields as needed
 });
 
