@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const testk = require("../controllers/test");
 const multer = require("multer");
 const path = require("path");
 const {
@@ -24,8 +23,7 @@ router.use(
 const { protect } = require("../helper/authmiddleware");
 
 router.post("/signup", signupUser);
-router.post("/upload", testk);
-router.get("/test", protect, test);
+router.post("/test", protect, test);
 router.post("/login", loginUser);
 router.post("/add_book", protect, addBookAuthor);
 router.post("/add_book_detail_sell", add_book_sell);

@@ -11,7 +11,7 @@ const test = asyncHandler(async (req, res) => {
     console.log(error);
     return res
       .status(500)
-      .json({ error: "An error occurred while signing up." });
+      .json({ error: "An error occurred in the test function." });
   }
 });
 
@@ -46,14 +46,14 @@ const signupUser = asyncHandler(async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign(
-      { email: user.email, id: user._id, name: user.userName },
-      process.env.JWT_SECRET,
-      { expiresIn: "30d" }
-    );
+    // const token = jwt.sign(
+    //   { email: user.email, id: user._id, name: user.userName },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: "30d" }
+    // );
 
     // Set the JWT token as an HTTP-only cookie
-    res.cookie("token", token, { httpOnly: true });
+    // res.cookie("token", token, { httpOnly: true });
 
     return res.json({
       _id: user.id,
@@ -87,13 +87,14 @@ const loginUser = asyncHandler(async (req, res) => {
       const token = jwt.sign(
         { email: user.email, id: user._id, name: user.userName },
         process.env.JWT_SECRET,
-        { expiresIn: "30d" }
+        { expiresIn: "1d" }
       );
 
       // Set the JWT token as an HTTP-only cookie
-      res.cookie("token", token, { httpOnly: true });
+      // res.cookie("token", token, { httpOnly: true });
 
       return res.json({
+        token: token,
         _id: user.id,
         name: user.userName,
         email: user.email,

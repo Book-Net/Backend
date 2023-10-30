@@ -21,6 +21,7 @@ const addBookAuthor = async (req, res) => {
 
   // res.json({ message: 'Image uploaded successfully!' });
   upload(req, res, (err) => {
+    console.log(req.user._id);
     if (err) {
       return res
         .status(400)
@@ -35,6 +36,7 @@ const addBookAuthor = async (req, res) => {
       condition: "new",
       price: req.body.price,
       img: req.file.filename,
+      user_id: req.user._id,
     })
       .then((result) => res.redirect("http://localhost:3000/BookList"))
       .catch((err) =>
