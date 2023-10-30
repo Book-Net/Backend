@@ -36,6 +36,7 @@ const add_book_sell = async (req,res) => {
             img: req.file.filename,
             location: req.body.location,
             option:option,
+            category:req.body.category,
         };
 
         switch (option) {
