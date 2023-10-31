@@ -11,4 +11,4 @@ const displayAuthorBook = async (req, res) => {
     }
   };
 
-  module.exports = displayAuthorBook;
+  module.exports = displayAuthorBook
