@@ -7,6 +7,7 @@ const asyncHandler = require("express-async-handler");
 const test = asyncHandler(async (req, res) => {
   try {
     res.json({ message: "meka test ekak" });
+    console.log(req.user._id.toString());
   } catch (error) {
     console.log(error);
     return res

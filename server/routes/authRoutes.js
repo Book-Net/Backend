@@ -28,12 +28,12 @@ router.post("/signup", signupUser);
 router.post("/test", protect, test);
 router.post("/login", loginUser);
 router.post("/add_book", protect, addBookAuthor);
-router.post("/add_book_detail_sell", add_book_sell);
+// router.post("/add_book_detail_sell", add_book_sell);
 
 router.get("/BookList", displayBookAuthor);
 router.get("/give_file/:name", file_u);
 router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
-router.post("/add_book_detail_sell", add_book_sell);
+router.post("/add_book_detail_sell", protect, add_book_sell);
 
 module.exports = router;
