@@ -14,4 +14,4 @@ const bookSellDetails = async (req, res) => {
     }
   };
 
-  module.exports = bookSellDetails
+  module.exports = bookSellDetails;
