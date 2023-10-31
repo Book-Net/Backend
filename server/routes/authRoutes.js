@@ -7,6 +7,7 @@ const {
   signupUser,
   loginUser,
   test,
+  tokenVerify,
 } = require("../controllers/authController");
 const addBookAuthor = require("../controllers/addBookAuthor");
 const add_book_sell = require("../controllers/addBookForSell");
@@ -35,5 +36,6 @@ router.get("/give_file/:name", file_u);
 router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
 router.post("/add_book_detail_sell", protect, add_book_sell);
+router.get("/:id/verify/:token/", tokenVerify);
 
 module.exports = router;
