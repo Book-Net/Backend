@@ -34,7 +34,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 
-
 app.use('/src/img', express.static('src'));
 app.use(express.static(path.join(__dirname, 'src/img')));
 
@@ -48,6 +47,7 @@ const PORT = process.env.PORT || 9000;
 
 
 app.use("/", require("./routes/authRoutes"));
+app.use("/goals", require("./routes/goalRoutes"));
 
 // Book model and route setup
 // const Book = require("./models/book"); // Assuming you have a Book model
