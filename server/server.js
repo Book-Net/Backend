@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const path = require('path');
-const stripe = require("./controllers/stripeGw")
+const path = require("path");
 
 // const addBook = require("./controllers/addBookAuthor");
 
@@ -47,6 +46,7 @@ mongoose
 const PORT = process.env.PORT || 9000;
 
 app.use("/", require("./routes/authRoutes"));
+app.use("/goals", require("./routes/goalRoutes"));
 
 // Book model and route setup
 // const Book = require("./models/book"); // Assuming you have a Book model
