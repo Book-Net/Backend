@@ -145,6 +145,7 @@ const loginUser = asyncHandler(async (req, res) => {
         _id: user.id,
         name: user.userName,
         email: user.email,
+        userType: user.userType,
       });
     } else {
       return res.json({
@@ -237,9 +238,6 @@ const myBooks = async (req, res) => {
     const user = req.user;
     const u_id = user._id.toString();
     const books = await Book.find({ user_id: u_id });
-
-    console.log("hariiiiiiiiiiiiiiiiiii");
-    console.log(books);
 
     if (books) {
       console.log("User books:", books);

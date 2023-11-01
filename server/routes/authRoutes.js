@@ -24,6 +24,7 @@ const book_details = require("../controllers/bookSellDetails");
 const createPost = require("../controllers/createPost");
 const viewPost = require("../controllers/postView");
 const createComment = require("../controllers/handleComment");
+const Bid = require("../controllers/Bid");
 
 // middleware
 router.use(
@@ -40,7 +41,12 @@ router.get("/BookList", displayBookAuthor);
 router.get("/give_file/:name", file_u);
 router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
-router.post("/stripe/create-checkout-session", stripeGW);
+router.post("/stripe/create-checkout-session", stripe.stripeGw);
+router.post(
+  "/stripe/create-checkout-session/webhook",
+  express.raw({ type: "application/json" }),
+  stripe.stripeWebHook
+);
 router.get("/book_details/:id", book_details);
 const { protect } = require("../helper/authmiddleware");
 // const createPost = require("../controllers/createPost");
@@ -52,7 +58,7 @@ router.post("/login", loginUser);
 router.post("/add_book", protect, addBookAuthor);
 
 router.get("/BookList", displayBookAuthor);
-router.get("/PostView", viewPost);
+router.get("/PostView", protect, viewPost);
 router.get("/give_file/:name", file_u);
 router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
@@ -67,8 +73,8 @@ router.post(
   stripe.stripeWebHook
 );
 router.get("/book_details/:id", book_details);
-router.post("/createPost", createPost);
-router.post("/createComment", createComment);
+router.post("/createPost", protect, createPost);
+router.post("/createComment", protect, createComment);
 
 router.get("/me", protect, getMe);
 router.post("/edit_details", protect, editDetails);

@@ -6,11 +6,11 @@ const Book = require("../models/Book");
 const add_book_sell = async (req, res) => {
   const user = req.user;
   const u_id = user._id.toString();
-  console.log(user._id.toString());
+  // console.log("mn book sell " + user._id.toString());
 
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "D:/booknet_v001/backend/Backend/server/src/img");
+      cb(null, "E:/BookNet/Backend/server/src/img");
     },
     filename: (req, file, cb) => {
       cb(
