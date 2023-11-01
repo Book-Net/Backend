@@ -1,5 +1,7 @@
 const Stripe = require('stripe') 
 require('dotenv').config()
+const Order = require('../models/order')
+
 
 const stripe = Stripe(process.env.STRIPE_KEY)
 
@@ -30,6 +32,7 @@ const stripeGw = async (req, res) => {
     const customer = await stripe.customers.create({
       metadata:{
         userId: req.body.userId,
+        // item: cartItem
       }
     })
 
@@ -64,7 +67,7 @@ const stripeGw = async (req, res) => {
       // phone_number_collections:{
       //   enabled: true
       // },
-      customer: customer.data, 
+      customer: customer.id, 
       line_items: line_items01(req),
       mode: 'payment',
       success_url: `http://localhost:3000/checkout-success`,
@@ -73,6 +76,45 @@ const stripeGw = async (req, res) => {
     
     res.send({url: session.url});
   }; 
+
+//create Order
+const createOrder = async(customer, data) =>{
+    // const items = JSON.parse("Book1")
+    const items = "Book3"
+
+    Order.create({
+      userId: customer.metadata.userId,
+      customerId: data.customer,
+      paymentIntentId: data.payment_intent,
+      products: items,
+      total: data.amount_total,
+      payment_status: data.payment_status
+    }).then((newOrder) => {
+      console.log('Order created successfully:', newOrder);
+      // data.status(201).json({ message: 'Order created successfully', order: newOrder });
+    })
+    .catch((error) => {
+      console.error('Error creating order:', error);
+      // data.status(500).json({ error: 'An error occurred while creating the order' });
+    });
+
+    // const newOrder = new Order({
+    //   userId: customer.metadata.userId,
+    //   customerId: data.customer,
+    //   paymentIntentId: data.payment_intent,
+    //   products: items,
+    //   total: data.amount_total,
+    //   payment_status: data.payment_status
+    // })
+
+    // try {
+    //   const saveOrder =  await newOrder.save()
+    //   console.log("Processed Order : " , saveOrder)
+    // } catch (error) {
+      
+    // }
+
+}
 
   //Stripe Webhooks
   let endpointSecret;
@@ -105,7 +147,7 @@ const stripeWebHook = (req, res) => {
       return res.sendStatus(400);
     }
 
-    data = event.data.object;
+    data = req.data.object;
     eventType = event.type;
   }else{
     data = req.body.data.object;
@@ -127,16 +169,13 @@ const stripeWebHook = (req, res) => {
     const customerID = data.customer;
   
     stripe.customers.retrieve(customerID)
-      .then((customer) => {
-        if (customer) {
-          console.log(customer);
-          console.log("data:", data);
-        } else {
-          console.log("Customer not found.");
-        }
-      }).catch((err) => {
-        console.log("Error retrieving customer:", err.message);
-      });
+      .then((customer) =>{
+        console.log('Customer found : ', customer);
+        console.log('data : ', data);
+        createOrder(customer, data)
+      }).catch(
+        (err) => {console.log("Error in customer ", err)}
+      );
   }
 
 

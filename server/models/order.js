@@ -5,6 +5,14 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+   customerId: {
+      type: String,
+      
+    },
+   paymentIntentId: {
+      type: String,
+      
+    },
     products: {
       type:  String,
       unique: true,
