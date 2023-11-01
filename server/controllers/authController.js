@@ -62,11 +62,11 @@ const signupUser = asyncHandler(async (req, res) => {
       return res.status(400).json({ error: "Passwords do not match." });
     }
 
+    console.log("object");
     const exist = await User.findOne({ email });
     if (exist) {
       return res.status(400).json({ error: "Email already registered" });
     }
-
     const hashedPassword = await hashPassword(password);
 
     const user = await User.create({
@@ -85,12 +85,6 @@ const signupUser = asyncHandler(async (req, res) => {
     res
       .status(201)
       .send({ message: "An Email sent to your account please verify" });
-
-    // return res.json({
-    //   _id: user.id,
-    //   name: user.userName,
-    //   email: user.email,
-    // });
   } catch (error) {
     console.log(error);
     return res
@@ -112,22 +106,6 @@ const loginUser = asyncHandler(async (req, res) => {
       });
     }
 
-    // if (!user.verified) {
-    //   let token = await Token.findOne({ userId: user._id });
-    //   if (!token) {
-    //     token = await new Token({
-    //       userId: user._id,
-    //       token: crypto.randomBytes(32).toString("hex"),
-    //     }).save();
-    //     const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
-    //     await sendEmail(user.email, "Verify Email", url);
-    //   }
-
-    //   return res
-    //     .status(400)
-    //     .send({ message: "An Email sent to your account please verify" });
-    // }
-
     // Check if password matches
     const match = await comparePassword(password, user.password);
     if (match) {
@@ -136,9 +114,6 @@ const loginUser = asyncHandler(async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
       );
-
-      // Set the JWT token as an HTTP-only cookie
-      // res.cookie("token", token, { httpOnly: true });
 
       return res.json({
         token: token,

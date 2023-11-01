@@ -25,6 +25,7 @@ const createPost = require("../controllers/createPost");
 const viewPost = require("../controllers/postView");
 const createComment = require("../controllers/handleComment");
 const Bid = require("../controllers/Bid");
+const sales = require("../controllers/salesDetails");
 
 // middleware
 router.use(
@@ -64,7 +65,6 @@ router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
 router.post("/add_book_detail_sell", protect, add_book_sell);
 router.post("/bid", protect, Bid);
-// router.post("/add_book_detail_sell", add_book_sell);
 router.get("/:id/verify/:token/", tokenVerify);
 router.post("/stripe/create-checkout-session", stripe.stripeGw);
 router.post(
@@ -80,5 +80,6 @@ router.get("/me", protect, getMe);
 router.post("/edit_details", protect, editDetails);
 router.get("/MyBookList", protect, myBooks);
 router.post("/update_pro_img", protect, update_pro_img);
+router.get("/sales", protect, sales);
 
 module.exports = router;
