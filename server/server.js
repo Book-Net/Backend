@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const path = require('path');
-const stripe = require("./controllers/stripeGw")
+const path = require("path");
 
 // const addBook = require("./controllers/addBookAuthor");
 
@@ -32,6 +31,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+<<<<<<<<< Temporary merge branch 1
 
 
 app.use('/src/img', express.static('src'));

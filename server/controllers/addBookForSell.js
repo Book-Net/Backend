@@ -4,14 +4,14 @@ const Book = require("../models/Book");
 // const protect = require("../helper/authmiddleware");
 
 const add_book_sell = async (req, res) => {
-  let option = req.body.option;
-  const user = req.user;
+    
+    const user = req.user;
   const u_id = user._id.toString();
   console.log(user._id.toString());
 
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "E:/BookNet/Backend/server/src/img");
+        cb(null, 'D:/booknet_v001/backend/Backend/server/src/img');
     },
     filename: (req, file, cb) => {
       cb(
@@ -32,7 +32,7 @@ const add_book_sell = async (req, res) => {
         .status(400)
         .json({ message: "Error uploading file", error: err });
     }
-
+    let option = req.body.option;
     let bookData = {
       title: req.body.title,
       authors: req.body.author,
@@ -47,6 +47,7 @@ const add_book_sell = async (req, res) => {
       user_id: u_id,
     };
 
+    console.log(option);
     switch (option) {
       case "Sell":
         bookData.price = req.body.price;
