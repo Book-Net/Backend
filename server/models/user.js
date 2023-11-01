@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    userType: {
+      type: String,
+      default: "Normal User",
+    },
   },
   {
     timestamps: true,

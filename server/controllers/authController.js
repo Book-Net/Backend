@@ -6,6 +6,8 @@ const Token = require("../models/token");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const { error } = require("console");
+const Book = require("../models/Book");
+
 // test
 const test = asyncHandler(async (req, res) => {
   try {
@@ -223,17 +225,32 @@ const tokenVerify = async (req, res) => {
     await User.findByIdAndUpdate(req.params.id, {
       verified: true,
     });
-    // const removetoken = await token.remove();
-    // if (removetoken) {
-    //   res.status(200).send({ message: "token removed" });
-    // } else {
-    //   res.status(400).send({ error: error });
-    // }
-    console.log("sss");
 
     return res.status(200).send({ message: "Email verified successfully" });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
+const myBooks = async (req, res) => {
+  try {
+    const user = req.user;
+    const u_id = user._id.toString();
+    const books = await Book.find({ user_id: u_id });
+
+    console.log("hariiiiiiiiiiiiiiiiiii");
+    console.log(books);
+
+    if (books) {
+      console.log("User books:", books);
+      return res.json({ books: books });
+    } else {
+      console.log("User not found");
+      res.status(404).json({ error: "books not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
   }
 };
 
@@ -244,4 +261,5 @@ module.exports = {
   tokenVerify,
   getMe,
   editDetails,
+  myBooks,
 };
