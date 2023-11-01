@@ -23,7 +23,8 @@ const book_details = require("../controllers/bookSellDetails");
 const bookDetailFetch = require("../controllers/bookDetailFetch");
 const Bid = require("../controllers/Bid");
 const ex = require("../controllers/ex");
-const donate = require("../controllers/donate") 
+const donate = require("../controllers/donate")
+const give_user = require("../controllers/give_user")
 // middleware
 router.use(
   cors({
@@ -63,5 +64,6 @@ router.get("/me", protect, getMe);
 router.post("/edit_details", protect, editDetails);
 router.get("/MyBookList", protect, myBooks);
 router.post("/update_pro_img", protect, update_pro_img);
+router.get("/give_user/:id", protect, give_user);
 
 module.exports = router;
