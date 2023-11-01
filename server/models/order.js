@@ -24,7 +24,11 @@ const orderSchema = new mongoose.Schema({
     payment_status:{
         type: String,
         required: true
-    }
+    },
+    shipping_address:{
+        type: Object,
+        required: true
+    },
   },
    {timestamps: true});
 

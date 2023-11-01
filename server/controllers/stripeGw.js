@@ -1,6 +1,7 @@
 const Stripe = require('stripe') 
 require('dotenv').config()
 const Order = require('../models/order')
+const Book = require('../models/Book')
 
 
 const stripe = Stripe(process.env.STRIPE_KEY)
@@ -32,38 +33,39 @@ const stripeGw = async (req, res) => {
     const customer = await stripe.customers.create({
       metadata:{
         userId: req.body.userId,
-        // item: cartItem
+        item: cartItem,
+        
       }
     })
 
     console.log(req.body.userId)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      // shipping_address_collection:{
-      //   allowed_countries:['CA', 'US'],
-      // },
-      // shipping_options: [
-      //   {
-      //     shipping_rate_data: {
-      //       type: 'fixed_amount',
-      //       fixed_amount:{
-      //         amount: 0,
-      //         currency: 'usd',
-      //       },
-      //       display_name: 'Free Shipping',
-      //       delivery_estimate:{
-      //         minimum:{
-      //           unit: 'business_day',
-      //           value: 1,
-      //         },
-      //         maximum: {
-      //           unit: 'business_day',
-      //           value: 1
-      //         },
-      //       }
-      //     }
-      //   },
-      // ],
+      shipping_address_collection:{
+        allowed_countries:['CA', 'US', 'SL'],
+      },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount:{
+              amount: 0,
+              currency: 'lkr',
+            },
+            display_name: 'Free Shipping',
+            delivery_estimate:{
+              minimum:{
+                unit: 'business_day',
+                value: 1,
+              },
+              maximum: {
+                unit: 'business_day',
+                value: 1
+              },
+            }
+          }
+        },
+      ],
       // phone_number_collections:{
       //   enabled: true
       // },
@@ -80,15 +82,16 @@ const stripeGw = async (req, res) => {
 //create Order
 const createOrder = async(customer, data) =>{
     // const items = JSON.parse("Book1")
-    const items = "Book3"
+    const items = customer.metadata.item
 
     Order.create({
       userId: customer.metadata.userId,
       customerId: data.customer,
       paymentIntentId: data.payment_intent,
       products: items,
-      total: data.amount_total,
-      payment_status: data.payment_status
+      total: data.amount_total/100,
+      payment_status: data.payment_status,
+      shipping_address : data.customer_details,
     }).then((newOrder) => {
       console.log('Order created successfully:', newOrder);
       // data.status(201).json({ message: 'Order created successfully', order: newOrder });

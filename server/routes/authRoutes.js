@@ -19,6 +19,7 @@ const stripe = require("../controllers/stripeGw")
 const book_details = require("../controllers/bookSellDetails")
 const createPost = require("../controllers/createPost")
 const viewPost = require("../controllers/postView")
+const createComment = require("../controllers/handleComment")
 
 // middleware
 router.use(
@@ -49,6 +50,7 @@ router.post("/stripe/create-checkout-session",stripe.stripeGw);
 router.post("/stripe/create-checkout-session/webhook", express.raw({type: 'application/json'}),stripe.stripeWebHook);
 router.get("/book_details/:id",book_details);
 router.post("/createPost",createPost);
+router.post("/createComment",createComment);
 
 
 module.exports = router;
