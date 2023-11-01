@@ -17,6 +17,8 @@ const stripeGW = require("../controllers/stripeGw")
 const book_details = require("../controllers/bookSellDetails")
 const bookDetailFetch = require("../controllers/bookDetailFetch");
 const Bid = require("../controllers/Bid");
+const ex = require("../controllers/ex");
+const donate = require("../controllers/donate") 
 // middleware
 router.use(
   cors({
@@ -47,6 +49,9 @@ router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
 router.post("/add_book_detail_sell", protect, add_book_sell);
 router.post("/bid", protect, Bid);
+router.post("/ex", protect, ex);
+router.post("/donate", protect, donate);
+
 // router.post("/add_book_detail_sell", add_book_sell);
 
 module.exports = router;
