@@ -8,16 +8,19 @@ const {
   loginUser,
   test,
   tokenVerify,
+  getMe,
+  editDetails,
+  myBooks,
 } = require("../controllers/authController");
+const update_pro_img = require("../controllers/updateProfilePic");
 const addBookAuthor = require("../controllers/addBookAuthor");
 const add_book_sell = require("../controllers/addBookForSell");
 const add_book_author = require("../controllers/Book_add_author");
 const displayBookAuthor = require("../controllers/displayAuthorBooks");
 const file_u = require("../controllers/file");
-const stripeGW = require("../controllers/stripeGw")
-const book_details = require("../controllers/bookSellDetails")
 const createPost = require("../controllers/createPost")
 const viewPost = require("../controllers/postView")
+// import { MyBooks } from "../controllers/ProfileController";
 const createComment = require("../controllers/handleComment")
 
 // middleware
@@ -28,15 +31,6 @@ router.use(
   })
 );
 
-router.post("/signup", signupUser);
-router.post("/login", loginUser);
-router.post("/add_book",addBookAuthor);
-router.get("/BookList",displayBookAuthor);
-router.get("/give_file/:name",file_u);
-router.post("/Book_add_author",add_book_author);
-router.get("/bookDetailFetch/:isbn",bookDetailFetch);
-router.post("/stripe/create-checkout-session",stripeGW);
-router.get("/book_details/:id",book_details);
 const { protect } = require("../helper/authmiddleware");
 // const createPost = require("../controllers/createPost");
 // const createPost = require("../controllers/createPost");
@@ -53,12 +47,10 @@ router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
 router.post("/add_book_detail_sell", protect, add_book_sell);
 router.get("/:id/verify/:token/", tokenVerify);
-router.post("/stripe/create-checkout-session",stripe.stripeGw);
-router.post("/stripe/create-checkout-session/webhook", express.raw({type: 'application/json'}),stripe.stripeWebHook);
-router.get("/book_details/:id",book_details);
-router.post("/createPost",createPost);
-router.post("/createComment",createComment);
-
+router.get("/me", protect, getMe);
+router.post("/edit_details", protect, editDetails);
+router.get("/MyBookList", protect, myBooks);
+router.post("/update_pro_img", protect, update_pro_img);
 router.post("/bid", protect, Bid);
 // router.post("/add_book_detail_sell", add_book_sell);
 

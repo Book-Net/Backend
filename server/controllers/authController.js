@@ -6,11 +6,36 @@ const Token = require("../models/token");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const { error } = require("console");
+const Book = require("../models/Book");
+
 // test
 const test = asyncHandler(async (req, res) => {
   try {
     res.json({ message: "meka test ekak" });
     console.log(req.user._id.toString());
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred in the test function." });
+  }
+});
+
+const getMe = asyncHandler(async (req, res) => {
+  try {
+    console.log("object");
+    const user = req.user;
+    const u_id = user._id.toString();
+
+    const foundUser = await User.findById(u_id);
+
+    if (foundUser) {
+      console.log("User details:", foundUser);
+      return res.json({ user: foundUser });
+    } else {
+      console.log("User not found");
+      res.status(404).json({ error: "User not found" });
+    }
   } catch (error) {
     console.log(error);
     return res
@@ -134,6 +159,59 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const editDetails = asyncHandler(async (req, res) => {
+  try {
+    const { name, phone, address, country } = req.body;
+    const user = req.user;
+    const u_id = user._id.toString();
+
+    // Check if the user exists
+    const findUser = await User.findOne({ _id: u_id });
+
+    if (!findUser) {
+      return res.json({
+        error: "User not exist!",
+      });
+    }
+
+    // Update the user's details
+    try {
+      const updateFields = {};
+
+      if (name) {
+        updateFields.userName = name;
+      }
+      if (phone) {
+        updateFields.phone = phone;
+      }
+      if (address) {
+        updateFields.address = address;
+      }
+      if (country) {
+        updateFields.country = country;
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(u_id, updateFields, {
+        new: true,
+      });
+
+      return res.json({
+        message: "User details updated successfully!",
+        user: updatedUser,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: "An error occurred while updating user details.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "An error occurred while processing the request.",
+    });
+  }
+});
+
 const tokenVerify = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
@@ -147,13 +225,6 @@ const tokenVerify = async (req, res) => {
     await User.findByIdAndUpdate(req.params.id, {
       verified: true,
     });
-    // const removetoken = await token.remove();
-    // if (removetoken) {
-    //   res.status(200).send({ message: "token removed" });
-    // } else {
-    //   res.status(400).send({ error: error });
-    // }
-    console.log("sss");
 
     return res.status(200).send({ message: "Email verified successfully" });
   } catch (error) {
@@ -161,10 +232,34 @@ const tokenVerify = async (req, res) => {
   }
 };
 
+const myBooks = async (req, res) => {
+  try {
+    const user = req.user;
+    const u_id = user._id.toString();
+    const books = await Book.find({ user_id: u_id });
+
+    console.log("hariiiiiiiiiiiiiiiiiii");
+    console.log(books);
+
+    if (books) {
+      console.log("User books:", books);
+      return res.json({ books: books });
+    } else {
+      console.log("User not found");
+      res.status(404).json({ error: "books not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+};
 
 module.exports = {
   signupUser,
   loginUser,
   test,
   tokenVerify,
+  getMe,
+  editDetails,
+  myBooks,
 };
