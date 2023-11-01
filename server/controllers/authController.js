@@ -30,10 +30,10 @@ const getMe = asyncHandler(async (req, res) => {
     const foundUser = await User.findById(u_id);
 
     if (foundUser) {
-      console.log("User details:", foundUser);
+      // console.log("User details:", foundUser);
       return res.json({ user: foundUser });
     } else {
-      console.log("User not found");
+      // console.log("User not found");
       res.status(404).json({ error: "User not found" });
     }
   } catch (error) {
