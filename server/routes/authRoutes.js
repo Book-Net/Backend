@@ -20,6 +20,7 @@ const displayBookAuthor = require("../controllers/displayAuthorBooks");
 const file_u = require("../controllers/file");
 const bookDetailFetch = require("../controllers/bookDetailFetch");
 // import { MyBooks } from "../controllers/ProfileController";
+const Bid = require("../controllers/Bid");
 // middleware
 router.use(
   cors({
@@ -34,7 +35,6 @@ router.post("/signup", signupUser);
 router.post("/test", protect, test);
 router.post("/login", loginUser);
 router.post("/add_book", protect, addBookAuthor);
-// router.post("/add_book_detail_sell", add_book_sell);
 
 router.get("/BookList", displayBookAuthor);
 router.get("/give_file/:name", file_u);
@@ -46,5 +46,7 @@ router.get("/me", protect, getMe);
 router.post("/edit_details", protect, editDetails);
 router.get("/MyBookList", protect, myBooks);
 router.post("/update_pro_img", protect, update_pro_img);
+router.post("/bid", protect, Bid);
+// router.post("/add_book_detail_sell", add_book_sell);
 
 module.exports = router;
