@@ -8,7 +8,10 @@ const {
   loginUser,
   test,
   tokenVerify,
+  getMe,
+  editDetails,
 } = require("../controllers/authController");
+const update_pro_img = require("../controllers/updateProfilePic");
 const addBookAuthor = require("../controllers/addBookAuthor");
 const add_book_sell = require("../controllers/addBookForSell");
 const add_book_author = require("../controllers/Book_add_author");
@@ -37,5 +40,8 @@ router.post("/Book_add_author", add_book_author);
 router.get("/bookDetailFetch/:isbn", bookDetailFetch);
 router.post("/add_book_detail_sell", protect, add_book_sell);
 router.get("/:id/verify/:token/", tokenVerify);
+router.get("/me", protect, getMe);
+router.post("/edit_details", protect, editDetails);
+router.post("/update_pro_img", protect, update_pro_img);
 
 module.exports = router;

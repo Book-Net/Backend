@@ -19,6 +19,29 @@ const test = asyncHandler(async (req, res) => {
   }
 });
 
+const getMe = asyncHandler(async (req, res) => {
+  try {
+    console.log("object");
+    const user = req.user;
+    const u_id = user._id.toString();
+
+    const foundUser = await User.findById(u_id);
+
+    if (foundUser) {
+      console.log("User details:", foundUser);
+      return res.json({ user: foundUser });
+    } else {
+      console.log("User not found");
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred in the test function." });
+  }
+});
+
 // Signup user function
 const signupUser = asyncHandler(async (req, res) => {
   try {
@@ -134,6 +157,59 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const editDetails = asyncHandler(async (req, res) => {
+  try {
+    const { name, phone, address, country } = req.body;
+    const user = req.user;
+    const u_id = user._id.toString();
+
+    // Check if the user exists
+    const findUser = await User.findOne({ _id: u_id });
+
+    if (!findUser) {
+      return res.json({
+        error: "User not exist!",
+      });
+    }
+
+    // Update the user's details
+    try {
+      const updateFields = {};
+
+      if (name) {
+        updateFields.userName = name;
+      }
+      if (phone) {
+        updateFields.phone = phone;
+      }
+      if (address) {
+        updateFields.address = address;
+      }
+      if (country) {
+        updateFields.country = country;
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(u_id, updateFields, {
+        new: true,
+      });
+
+      return res.json({
+        message: "User details updated successfully!",
+        user: updatedUser,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: "An error occurred while updating user details.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "An error occurred while processing the request.",
+    });
+  }
+});
+
 const tokenVerify = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
@@ -166,4 +242,6 @@ module.exports = {
   loginUser,
   test,
   tokenVerify,
+  getMe,
+  editDetails,
 };
