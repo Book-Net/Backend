@@ -113,6 +113,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+
 module.exports = {
   signupUser,
   loginUser,
