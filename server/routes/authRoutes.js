@@ -29,6 +29,7 @@ const ex = require("../controllers/ex");
 const donate = require("../controllers/donate");
 const give_user = require("../controllers/give_user");
 const sales = require("../controllers/salesDetails");
+const bids = require("../controllers/bidDetails");
 
 // middleware
 router.use(
@@ -88,5 +89,6 @@ router.get("/MyBookList", protect, myBooks);
 router.post("/update_pro_img", protect, update_pro_img);
 router.get("/give_user/:id", protect, give_user);
 router.get("/sales", protect, sales);
+router.get("/bidding", protect, bids);
 
 module.exports = router;
