@@ -45,20 +45,20 @@ const stripeGw = async (req, res) => {
         shipping_rate_data: {
           type: "fixed_amount",
           fixed_amount: {
-            amount: 0,
+            amount: 50000,
             currency: "lkr",
           },
-          display_name: "Free Shipping",
-          delivery_estimate: {
-            minimum: {
-              unit: "business_day",
-              value: 1,
-            },
-            maximum: {
-              unit: "business_day",
-              value: 1,
-            },
-          },
+          display_name: "Shipping + 5% on each transaction",
+          // delivery_estimate: {
+          //   minimum: {
+          //     unit: "business_day",
+          //     value: 1,
+          //   },
+          //   maximum: {
+          //     unit: "business_day",
+          //     value: 1,
+          //   },
+          // },
         },
       },
     ],
